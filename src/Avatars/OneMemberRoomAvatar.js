@@ -1,17 +1,19 @@
 import React from 'react'
-import { ART, View, Text } from 'react-native'
+import { ART, View, Text, ViewPropTypes } from 'react-native'
 import PropTypes from 'prop-types'
 
 import Circle from '../Shapes/Circle'
+
+const RNViewPropTypes = ViewPropTypes || View.propTypes
 
 const getMemberLetter = (name) => {
   return name[0].toUpperCase()
 }
 
-const OneMemberRoomAvatar = ({ size, members }) => {
+const OneMemberRoomAvatar = ({ size, members, containerStyle }) => {
 
   return (
-    <View>
+    <View style={containerStyle}>
       <ART.Surface width={size} height={size}>
         <Circle
           radius={size/2}
@@ -33,7 +35,8 @@ const OneMemberRoomAvatar = ({ size, members }) => {
 
 OneMemberRoomAvatar.propTypes = {
   size: PropTypes.number,
-  members: PropTypes.array
+  members: PropTypes.array,
+  containerStyle: RNViewPropTypes.style  
 }
 
 const styles = {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Animated, ART, Text, View, ViewPropTypes } from 'react-native'
+import { Animated, ART, View, ViewPropTypes } from 'react-native'
 
 import Arc from '../Shapes/Arc'
 import withAnimation from '../withAnimation'
@@ -27,7 +27,7 @@ export class CircularProgressBar extends Component {
     strokeCap: PropTypes.string,
     showsText: PropTypes.bool,
     size: PropTypes.number,
-    style: RNViewPropTypes.style,
+    containerStyle: RNViewPropTypes.style,
     thickness: PropTypes.number
   };
 
@@ -76,10 +76,9 @@ export class CircularProgressBar extends Component {
       progress,
       showsText,
       size,
-      style,
+      containerStyle,
       strokeCap,
-      thickness,
-      ...restProps
+      thickness
     } = this.props
 
     const border = borderWidth || 0
@@ -97,7 +96,7 @@ export class CircularProgressBar extends Component {
     console.log(`render: ${JSON.stringify(this.props)}`)
 
     return (
-      <View style={[styles.container, style]} {...restProps}>
+      <View style={[styles.container, containerStyle]} >
         <ART.Surface width={size+thickness} height={size+thickness}>
           {border &&
             <Arc

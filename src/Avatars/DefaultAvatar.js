@@ -1,13 +1,15 @@
 import React from 'react'
-import { ART, View } from 'react-native'
+import { ART, View, ViewPropTypes } from 'react-native'
 import PropTypes from 'prop-types'
 
 import Circle from '../Shapes/Circle'
 
-const DefaultAvatar = ({ size }) => {
+const RNViewPropTypes = ViewPropTypes || View.propTypes
+
+const DefaultAvatar = ({ size, containerStyle }) => {
 
   return (
-    <View>
+    <View style={containerStyle}>
       <ART.Surface width={size} height={size}>
         <Circle
           radius={size/2}
@@ -23,7 +25,7 @@ const DefaultAvatar = ({ size }) => {
 
 DefaultAvatar.propTypes = {
   size: PropTypes.number,
-  members: PropTypes.array
+  containerStyle: RNViewPropTypes.style
 }
 
 export default DefaultAvatar

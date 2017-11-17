@@ -1,5 +1,5 @@
 import React from 'react'
-import { ART, View, Text } from 'react-native'
+import { ART, View, Text, ViewPropTypes } from 'react-native'
 import PropTypes from 'prop-types'
 
 import TopLeftSlice from '../Shapes/TopLeftSlice'
@@ -7,14 +7,16 @@ import TopRightSlice from '../Shapes/TopRightSlice'
 import BottomLeftSlice from '../Shapes/BottomLeftSlice'
 import BottomRightSlice from '../Shapes/BottomRightSlice'
 
+const RNViewPropTypes = ViewPropTypes || View.propTypes
+
 const getMemberLetter = (name) => {
   return name[0].toUpperCase()
 }
 
-const FourMembersRoomAvatar = ({ size, members }) => {
+const FourMembersRoomAvatar = ({ size, members, containerStyle }) => {
 
   return (
-    <View>
+    <View style={containerStyle}>    
       <ART.Surface width={size} height={size}>
         <TopLeftSlice
           radius={size/2}
@@ -68,7 +70,8 @@ const FourMembersRoomAvatar = ({ size, members }) => {
 
 FourMembersRoomAvatar.propTypes = {
   size: PropTypes.number,
-  members: PropTypes.array
+  members: PropTypes.array,
+  containerStyle: RNViewPropTypes.style
 }
 
 const styles = {
