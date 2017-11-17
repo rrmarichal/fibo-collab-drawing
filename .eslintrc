@@ -1,0 +1,34 @@
+{
+    "parser": "babel-eslint",
+    "extends": [ "eslint:recommended", "plugin:react/recommended" ],
+    "plugins": [
+        "react",
+        "jsx-a11y",
+        "import"
+    ],
+    "rules": {
+        // enable additional rules
+        "indent": [
+            "error", 2, { "SwitchCase": 1 }
+        ],
+        "quotes": [
+            "error",
+            "single"
+        ],
+        "semi": [
+            "error",
+            "never"
+        ],
+        // override default options for rules from base configurations
+        "comma-dangle": [
+            "error",
+            "never"
+        ],
+        "no-cond-assign": [
+            "error",
+            "always"
+        ],
+        // disable rules from base configurations
+        "no-console": "off"
+    }
+}

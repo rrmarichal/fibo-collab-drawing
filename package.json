@@ -1,0 +1,21 @@
+{
+  "name": "@fibo-app/fibo-collab-drawing",
+  "version": "0.1.0",
+  "description": "Progress indicators and spinners for React Native using ReactART",
+  "main": "index.js",
+  "scripts": {
+    "build": "babel index.js src -d build"
+  },
+  "author": "Fibo Packages",
+  "bugs": {},
+  "license": "MIT",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-eslint": "^7.0.0"
+  },
+  "dependencies": {
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react-native-stage-0": "^1.0.1",
+    "prop-types": "^15.5.8"
+  }
+}
