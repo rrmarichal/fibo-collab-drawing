@@ -1,4 +1,0 @@
-'use strict';Object.defineProperty(exports,"__esModule",{value:true});var _Bar=require('./src/Bar');Object.defineProperty(exports,'Bar',{enumerable:true,get:function get(){return _interopRequireDefault(_Bar).default;}});var _Circle=require('./src/Circle');Object.defineProperty(exports,'Circle',{enumerable:true,get:function get(){return _interopRequireDefault(_Circle).
-default;}});var _CircleSnail=require('./src/CircleSnail');Object.defineProperty(exports,'CircleSnail',{enumerable:true,get:function get(){return _interopRequireDefault(_CircleSnail).
-default;}});var _Pie=require('./src/Pie');Object.defineProperty(exports,'Pie',{enumerable:true,get:function get(){return _interopRequireDefault(_Pie).
-default;}});function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}
