@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Animated, ART, View, ViewPropTypes } from 'react-native'
 
 import Arc from '../Shapes/Arc'
-import withAnimation from '../withAnimation'
+import withProgressAnimation from '../Animations/withProgressAnimation'
 
 const CIRCLE = Math.PI * 2
 
@@ -25,7 +25,7 @@ export class CircularProgressBar extends Component {
       PropTypes.instanceOf(Animated.Value)
     ]),
     strokeCap: PropTypes.string,
-    showsText: PropTypes.bool,
+    showText: PropTypes.bool,
     size: PropTypes.number,
     containerStyle: RNViewPropTypes.style,
     thickness: PropTypes.number
@@ -37,30 +37,23 @@ export class CircularProgressBar extends Component {
     direction: 'clockwise',
     formatText: progress => `${Math.round(progress * 100)}%`,
     progress: 0,
-    showsText: false,
+    showText: false,
     size: 40,
     thickness: 3
   };
 
   constructor(props, context) {
     super(props, context)
-    this.progressValue = -1
-  }
-
-  componentWillMount() {
-    if (this.props.animated) {
-      this.props.progress.addListener((event) => {
-        this.progressValue = event.value
-        if (this.props.showsText || this.progressValue === 1 || this.progressValue === -1) {
-          this.forceUpdate()
-        }
-      })
+    this.state = {
+      progressValue: 0
     }
   }
 
   componentDidMount() {
-    if (this.progressValue === 0) {
-      this.forceUpdate()
+    if (this.props.animated) {
+      this.props.progress.addListener((event) => {
+        this.setState({ progressValue: event.value })
+      })
     }
   }
 
@@ -74,14 +67,14 @@ export class CircularProgressBar extends Component {
       direction,
       formatText,
       progress,
-      showsText,
+      showText,
       size,
       containerStyle,
       strokeCap,
       thickness
     } = this.props
 
-    const border = borderWidth || 0
+    const showBorder = borderWidth || 0
 
     const radius = size/2
     const offset = {
@@ -89,16 +82,14 @@ export class CircularProgressBar extends Component {
       left: thickness/2
     }
     
-    const Shape = animated ? AnimatedArc : Arc
-    const progressValue = animated ? this.progressValue : progress
+    const ProgressArc = animated ? AnimatedArc : Arc
     const angle = animated ? Animated.multiply(progress, CIRCLE) : progress * CIRCLE
-
-    console.log(`render: ${JSON.stringify(this.props)}`)
-
+    const progressValue = animated ? this.state.progressValue : progress
+    
     return (
       <View style={[styles.container, containerStyle]} >
         <ART.Surface width={size+thickness} height={size+thickness}>
-          {border &&
+          {showBorder &&
             <Arc
               radius={size / 2}
               startAngle={0}
@@ -106,19 +97,19 @@ export class CircularProgressBar extends Component {
               endAngle={2 * Math.PI}
               stroke={borderColor || color}
               strokeCap={strokeCap}
-              strokeWidth={border} /> }
-          
-          <Shape
-            radius={radius}
-            offset={offset}
-            startAngle={0}
-            endAngle={angle}
-            direction={direction}
-            stroke={color}
-            strokeCap={strokeCap}
-            strokeWidth={thickness} /> 
+              strokeWidth={showBorder} /> }
+          {progressValue !== 0 &&
+            <ProgressArc
+              radius={radius}
+              offset={offset}
+              startAngle={0}
+              endAngle={angle}
+              direction={direction}
+              stroke={color}
+              strokeCap={strokeCap}
+              strokeWidth={thickness} /> }
         </ART.Surface>
-        {showsText &&
+        {showText &&
           <View style={styles.text(size + thickness, size, size / 2)}>
             <View>
               {formatText(progressValue)}
@@ -150,4 +141,4 @@ const styles = {
 
 }
 
-export default withAnimation(CircularProgressBar)
+export default withProgressAnimation(CircularProgressBar)
