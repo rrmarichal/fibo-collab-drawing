@@ -1,7 +1,7 @@
 *.log
-node_modules
-Example
+node_modules/
 .DS_Store
 .editorconfig
 .eslintrc
 .travis.yml
+.prettierrc

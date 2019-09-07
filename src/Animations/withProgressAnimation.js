@@ -3,68 +3,74 @@ import PropTypes from 'prop-types'
 import { Animated } from 'react-native'
 
 export default function withAnimation(WrappedComponent) {
-  const wrappedComponentName = WrappedComponent.displayName
-    || WrappedComponent.name
-    || 'Component'
+	const wrappedComponentName =
+		WrappedComponent.displayName || WrappedComponent.name || 'Component'
 
-  return class AnimatedComponent extends Component {
-    static displayName = `withProgressAnimation(${wrappedComponentName})`;
-    static propTypes = {
-      animated: PropTypes.bool,
-      direction: PropTypes.oneOf(['clockwise', 'counter-clockwise']),
-      progress: PropTypes.number.isRequired
-    }
+	return class AnimatedComponent extends Component {
+		static displayName = `withProgressAnimation(${wrappedComponentName})`
 
-    static defaultProps = {
-      animated: true,
-      progress: 0
-    }
+		static propTypes = {
+			animated: PropTypes.bool,
+			direction: PropTypes.oneOf(['clockwise', 'counter-clockwise']),
+			progress: PropTypes.number.isRequired
+		}
 
-    constructor(props) {
-      super(props)
-      this.progressValue = Math.min(Math.max(props.progress, 0), 1)
-      this.state = {
-        progress: new Animated.Value(0)
-      }
-    }
+		static defaultProps = {
+			animated: true,
+			progress: 0
+		}
 
-    componentDidMount() {
-      this.state.progress.addListener((event) => { this.progressValue = event.value })
-    }
+		constructor(props) {
+			super(props)
+			this.progressValue = Math.min(Math.max(props.progress, 0), 1)
+			this.state = {
+				progress: new Animated.Value(0)
+			}
+		}
 
-    componentWillUnmount() {
-      this.state.progress.removeAllListeners()
-    }
+		componentDidMount() {
+			this.state.progress.addListener(event => {
+				this.progressValue = event.value
+			})
+		}
 
-    componentWillReceiveProps(props) {
-      const progress = Math.min(Math.max(props.progress, 0), 1)
-      if (progress !== this.progressValue) {
-        this.fireAnimation(progress)
-      }
-    }
+		componentWillUnmount() {
+			this.state.progress.removeAllListeners()
+		}
 
-    componentWillMount() {
-      this.fireAnimation(this.progressValue)
-    }
+		componentWillReceiveProps(props) {
+			const progress = Math.min(Math.max(props.progress, 0), 1)
+			if (progress !== this.progressValue) {
+				this.fireAnimation(progress)
+			}
+		}
 
-    fireAnimation = (toValue) => {
-      if (this.props.animated) {
-        Animated.spring(this.state.progress, {
-          toValue,
-          bounciness: 0
-        }).start()
-      } else {
-        this.state.progress.setValue(this.progressValue)
-      }
-    }
+		componentWillMount() {
+			this.fireAnimation(this.progressValue)
+		}
 
-    render() {
-      return (
-        <WrappedComponent
-          {...this.props}
-          progress={this.props.animated ? this.state.progress : this.props.progress}
-        />
-      )
-    }
-  }
+		fireAnimation = toValue => {
+			if (this.props.animated) {
+				Animated.spring(this.state.progress, {
+					toValue,
+					bounciness: 0
+				}).start()
+			} else {
+				this.state.progress.setValue(this.progressValue)
+			}
+		}
+
+		render() {
+			return (
+				<WrappedComponent
+					{...this.props}
+					progress={
+						this.props.animated
+							? this.state.progress
+							: this.props.progress
+					}
+				/>
+			)
+		}
+	}
 }
